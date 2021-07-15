@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<body>
+
+<h1>AES CRYPTOSYSTEM</h1>
+<h2>AES Encryption </h2>
+ <strong>plaintext</strong>: 
+
+<input id="plaintext" size="150" placeholder="Please enter String" />
+<br/><br/>
+<div id="plaintext"></div>
+
+
+<strong>key</strong>: 
+
+<input id="key" size="40" placeholder="Please enter hexadecimal"/>
+<br/><br/>
+<div id="key"></div>
+
+<button type="button" onclick="encrypt()">encrypt</button>
+<br/>
+<br/>
+Encrypted result:
+<div id="ciphertext"></div>
+
+<h2>AES Decryption </h2>
+ <strong>cipherText</strong>: 
+
+<input id="ciphertextInput" size="150" placeholder="Please enter encrypted result"  />
+<br/><br/>
+
+<strong>key</strong>: 
+
+<input id="key" size="40" placeholder="Please enter hexadecimal"  />
+<br/><br/>
+
+
+<button type="button" onclick="decrypt()">decrypt</button>
+<br/>
+<br/>
+Decrypted result:
+<div id="plaintextOutput"></div>
+
+
+<script src="aes.js"></script>
+<script type="text/javascript">
+
+//
+//  main functions
+//
+var encryptedBytes;
+function encrypt(){
+	// get user input plaintext as hex string
+    var plaintext = document.getElementById('plaintext').value;
+    var textBytes = aesjs.utils.utf8.toBytes(plaintext);
+
+    
+
+    // get user entered key
+    var key = document.getElementById('key').value;
+   
+    key = aesjs.utils.hex.toBytes(key);
+
+    var aesEcb = new aesjs.ModeOfOperation.ecb(key);
+ encryptedBytes = aesEcb.encrypt(textBytes);
+ 
+// To print or store the binary data, you may convert it to hex
+var encryptedHex = aesjs.utils.hex.fromBytes(encryptedBytes);
+    document.getElementById("ciphertext").innerHTML = encryptedHex;
+   
+}
+
+function decrypt(){
+	// get user input ciphertext as hex string
+    var ciphertext = document.getElementById('ciphertext').value;
+
+    // get user entered key
+    var key = document.getElementById('key').value;
+    key = aesjs.utils.hex.toBytes(key);
+    
+    
+
+    var aesEcb = new aesjs.ModeOfOperation.ecb(key);
+   
+    var decryptedBytes = aesEcb.decrypt(encryptedBytes);
+ 
+ // Convert our bytes back into text
+ var decryptedText = aesjs.utils.utf8.fromBytes(decryptedBytes);
+ 
+ document.getElementById("plaintextOutput").innerHTML = decryptedText;
+}
+
+
+
+
+
+
+
+</script>
+
+
+
+
+</body>
+</html>
